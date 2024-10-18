@@ -10,9 +10,7 @@ public class Writer {
     @GeneratedValue(generator = "UUID")
     @Column(updatable = false, nullable = false)
     private UUID id;
-
     private String name;
-
     @ManyToMany(mappedBy = "writers")
     private Set<Movie> movies;
 
