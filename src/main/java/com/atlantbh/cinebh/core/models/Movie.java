@@ -3,13 +3,14 @@ package com.atlantbh.cinebh.core.models;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 public class Movie {
     @Id
     @GeneratedValue(generator = "UUID")
-    @Column(nullable = false)
+    @Column(updatable = false, nullable = false)
     private UUID id;
     private String title;
     private String rating;
