@@ -1,11 +1,18 @@
 package com.atlantbh.cinebh.core.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.sql.Date;
 import java.util.Set;
 import java.util.UUID;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Movie {
     @Id
@@ -50,154 +57,4 @@ public class Movie {
 
     @OneToMany(mappedBy = "movie")
     private Set<Projection> projections;
-
-    public Movie() {
-    }
-
-    public Movie(UUID id, String title, String rating, String language, String length, String description, String director, Date startDate, Date endDate, String trailerUrl, Set<Writer> writers, Set<Genre> genres, Set<Performer> performers, Set<MovieImage> images, Set<MovieRating> ratings, Set<Projection> projections) {
-        this.id = id;
-        this.title = title;
-        this.rating = rating;
-        this.language = language;
-        this.length = length;
-        this.description = description;
-        this.director = director;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.trailerUrl = trailerUrl;
-        this.writers = writers;
-        this.genres = genres;
-        this.performers = performers;
-        this.images = images;
-        this.ratings = ratings;
-        this.projections = projections;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getLength() {
-        return length;
-    }
-
-    public void setLength(String length) {
-        this.length = length;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getTrailerUrl() {
-        return trailerUrl;
-    }
-
-    public void setTrailerUrl(String trailerUrl) {
-        this.trailerUrl = trailerUrl;
-    }
-
-    public Set<Writer> getWriters() {
-        return writers;
-    }
-
-    public void setWriters(Set<Writer> writers) {
-        this.writers = writers;
-    }
-
-    public Set<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(Set<Genre> genres) {
-        this.genres = genres;
-    }
-
-    public Set<Performer> getPerformers() {
-        return performers;
-    }
-
-    public void setPerformers(Set<Performer> performers) {
-        this.performers = performers;
-    }
-
-    public Set<MovieImage> getImages() {
-        return images;
-    }
-
-    public void setImages(Set<MovieImage> images) {
-        this.images = images;
-    }
-
-    public Set<MovieRating> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(Set<MovieRating> ratings) {
-        this.ratings = ratings;
-    }
-
-    public Set<Projection> getProjections() {
-        return projections;
-    }
-
-    public void setProjections(Set<Projection> projections) {
-        this.projections = projections;
-    }
 }
