@@ -1,5 +1,6 @@
 package com.atlantbh.cinebh.core.models;
 
+import java.util.Set;
 import java.util.UUID;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,6 @@ public class Performer {
     private UUID id;
     private String name;
     private String role;
-    @ManyToOne
-    @JoinColumn(name = "movieId")
-    private Movie movie;
+    @ManyToMany(mappedBy = "performers")
+    private Set<Movie> movies;
 }

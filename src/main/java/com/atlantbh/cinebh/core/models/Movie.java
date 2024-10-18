@@ -23,7 +23,6 @@ public class Movie {
     private String rating;
     private String language;
     private String length;
-    @Lob
     private String description;
     private String director;
     private java.sql.Date startDate;
@@ -46,7 +45,12 @@ public class Movie {
     )
     private Set<Genre> genres;
 
-    @OneToMany(mappedBy = "movie")
+    @ManyToMany
+    @JoinTable(
+            name = "moviePerformer",
+            joinColumns = @JoinColumn(name = "movieId"),
+            inverseJoinColumns = @JoinColumn(name = "performerId")
+    )
     private Set<Performer> performers;
 
     @OneToMany(mappedBy = "movie")
