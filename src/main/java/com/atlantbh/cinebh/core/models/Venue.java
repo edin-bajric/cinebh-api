@@ -23,6 +23,7 @@ public class Venue {
     private String street;
     private String streetNumber;
     private String city;
+    private String postcode;
     private String imageURL;
     @OneToMany(mappedBy = "venue")
     private Set<Projection> projections;
