@@ -2,6 +2,8 @@ package com.atlantbh.cinebh.core.models;
 
 import java.util.Set;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,5 +23,6 @@ public class Performer {
     private String name;
     private String role;
     @ManyToMany(mappedBy = "performers")
+    @JsonBackReference
     private Set<Movie> movies;
 }

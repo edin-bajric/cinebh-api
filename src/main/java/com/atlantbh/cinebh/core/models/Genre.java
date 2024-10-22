@@ -2,6 +2,8 @@ package com.atlantbh.cinebh.core.models;
 
 import java.util.Set;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,5 +22,6 @@ public class Genre {
     private UUID id;
     private String name;
     @ManyToMany(mappedBy = "genres")
+    @JsonBackReference
     private Set<Movie> movies;
 }
