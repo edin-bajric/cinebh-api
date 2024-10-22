@@ -1,0 +1,1 @@
+UPDATE movie SET startDate = '2024-10-29', endDate = '2024-11-05' WHERE title = 'Venom: The Last Dance'
