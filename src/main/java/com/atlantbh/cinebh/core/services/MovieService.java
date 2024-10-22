@@ -22,4 +22,10 @@ public class MovieService {
         LocalDate today = LocalDate.now();
         return movieRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(today, today, pageable);
     }
+
+    public Page<Movie> getUpcomingMovies(Pageable pageable) {
+        LocalDate today = LocalDate.now().plusDays(1);
+        LocalDate upcomingDate = today.plusDays(14);
+        return movieRepository.findByStartDateBetween(today, upcomingDate, pageable);
+    }
 }
