@@ -1,0 +1,2 @@
+ALTER TABLE venue
+    ADD COLUMN postcode VARCHAR(10);
