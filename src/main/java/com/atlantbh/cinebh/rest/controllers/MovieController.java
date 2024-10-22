@@ -31,4 +31,11 @@ public class MovieController {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(movieService.getCurrentlyShowing(pageable));
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/upcoming")
+    public ResponseEntity<Page<Movie>> upcomingMovies(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                      @RequestParam(name = "size", defaultValue = "4") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(movieService.getUpcomingMovies(pageable));
+    }
 }
