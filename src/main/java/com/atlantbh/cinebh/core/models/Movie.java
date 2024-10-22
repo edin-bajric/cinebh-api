@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,8 +30,8 @@ public class Movie {
     private String length;
     private String description;
     private String director;
-    private java.sql.Date startDate;
-    private java.sql.Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String trailerUrl;
 
     @ManyToMany
