@@ -18,7 +18,7 @@ public class MovieService {
         return movieRepository.findAll(pageable);
     }
 
-    public Page<Movie> currentlyShowing(Pageable pageable) {
+    public Page<Movie> getCurrentlyShowing(Pageable pageable) {
         LocalDate today = LocalDate.now();
         return movieRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(today, today, pageable);
     }
