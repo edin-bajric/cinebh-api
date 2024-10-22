@@ -29,6 +29,6 @@ public class MovieController {
     public ResponseEntity<Page<Movie>> currentlyShowing(@RequestParam(name = "page", defaultValue = "0") int page,
                                                         @RequestParam(name = "size", defaultValue = "4") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(movieService.currentlyShowing(pageable));
+        return ResponseEntity.ok(movieService.getCurrentlyShowing(pageable));
     }
 }
