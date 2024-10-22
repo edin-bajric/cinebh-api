@@ -1,5 +1,8 @@
 package com.atlantbh.cinebh.core.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Movie {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -35,6 +39,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movieId"),
             inverseJoinColumns = @JoinColumn(name = "writerId")
     )
+    @JsonManagedReference
     private Set<Writer> writers;
 
     @ManyToMany
@@ -43,6 +48,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movieId"),
             inverseJoinColumns = @JoinColumn(name = "genreId")
     )
+    @JsonManagedReference
     private Set<Genre> genres;
 
     @ManyToMany
@@ -51,6 +57,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movieId"),
             inverseJoinColumns = @JoinColumn(name = "performerId")
     )
+    @JsonManagedReference
     private Set<Performer> performers;
 
     @OneToMany(mappedBy = "movie")
