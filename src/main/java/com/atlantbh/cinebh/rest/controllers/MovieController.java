@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/movies")
 @RequiredArgsConstructor
@@ -37,5 +39,10 @@ public class MovieController {
                                                       @RequestParam(name = "size", defaultValue = "4") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(movieService.getUpcomingMovies(pageable));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/featured")
+    public ResponseEntity<List<Movie>> featured() {
+        return ResponseEntity.ok(movieService.getFeatured());
     }
 }
