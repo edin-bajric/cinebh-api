@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.*;
 public class VenueController {
     private final VenueService venueService;
 
+    private Pageable createPageable(int page, int size) {
+        return PageRequest.of(page, size);
+    }
+
     @GetMapping("/")
     public ResponseEntity<Page<Venue>> getVenues(@RequestParam (name = "page", defaultValue = "0") int page,
                                                  @RequestParam(name = "size", defaultValue = "4") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(venueService.getVenues(pageable));
+        return ResponseEntity.ok(venueService.getVenues(createPageable(page, size)));
     }
 }
