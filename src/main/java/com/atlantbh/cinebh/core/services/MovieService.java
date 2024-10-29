@@ -14,6 +14,8 @@ import java.time.LocalDate;
 public class MovieService {
     private final MovieRepository movieRepository;
 
+    private static final int UPCOMING_DAYS_RANGE = 14;
+
     public Page<Movie> getMovies(Pageable pageable) {
         return movieRepository.findAll(pageable);
     }
@@ -25,7 +27,7 @@ public class MovieService {
 
     public Page<Movie> getUpcomingMovies(Pageable pageable) {
         LocalDate today = LocalDate.now().plusDays(1);
-        LocalDate upcomingDate = today.plusDays(14);
+        LocalDate upcomingDate = today.plusDays(UPCOMING_DAYS_RANGE);
         return movieRepository.findByStartDateBetween(today, upcomingDate, pageable);
     }
 }
