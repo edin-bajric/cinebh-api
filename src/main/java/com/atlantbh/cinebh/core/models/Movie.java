@@ -24,14 +24,23 @@ public class Movie {
     @GeneratedValue(generator = "UUID")
     @Column(updatable = false, nullable = false)
     private UUID id;
+    @Column(nullable = false, length = 255)
     private String title;
+    @Column(length = 45)
     private String rating;
+    @Column(length = 45)
     private String language;
+    @Column(length = 45)
     private String length;
+    @Column
     private String description;
+    @Column(length = 255)
     private String director;
+    @Column
     private LocalDate startDate;
+    @Column
     private LocalDate endDate;
+    @Column(length = 255)
     private String trailerUrl;
 
     @ManyToMany(fetch = FetchType.LAZY)
