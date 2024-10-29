@@ -21,7 +21,7 @@ public class Genre {
     @Column(updatable = false, nullable = false)
     private UUID id;
     private String name;
-    @ManyToMany(mappedBy = "genres")
+    @ManyToMany(mappedBy = "genres", fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<Movie> movies;
 }

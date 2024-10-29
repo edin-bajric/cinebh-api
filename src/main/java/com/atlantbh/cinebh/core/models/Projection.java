@@ -17,10 +17,10 @@ public class Projection {
     @GeneratedValue(generator = "UUID")
     @Column(updatable = false, nullable = false)
     private UUID id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "venueId")
     private Venue venue;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movieId")
     private Movie movie;
     private java.sql.Time projectionTime;

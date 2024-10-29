@@ -25,7 +25,7 @@ public class Venue {
     private String city;
     private String postcode;
     private String imageURL;
-    @OneToMany(mappedBy = "venue")
+    @OneToMany(mappedBy = "venue", fetch = FetchType.LAZY)
     private Set<Projection> projections;
 }
 

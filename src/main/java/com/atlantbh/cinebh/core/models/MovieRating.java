@@ -23,7 +23,7 @@ public class MovieRating {
     private UUID id;
     private String name;
     private String rating;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movieId")
     private Movie movie;
 }

@@ -21,7 +21,7 @@ public class Writer {
     @Column(updatable = false, nullable = false)
     private UUID id;
     private String name;
-    @ManyToMany(mappedBy = "writers")
+    @ManyToMany(mappedBy = "writers", fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<Movie> movies;
 }
