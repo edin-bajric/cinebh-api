@@ -24,7 +24,9 @@ public class MovieImage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movieId")
     private Movie movie;
+    @Column
     private Boolean isCoverImage;
+    @Column(length = 255)
     private String url;
 }
 

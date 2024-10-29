@@ -23,6 +23,7 @@ public class Projection {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movieId")
     private Movie movie;
+    @Column
     private java.sql.Time projectionTime;
 }
 
