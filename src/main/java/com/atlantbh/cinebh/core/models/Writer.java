@@ -20,8 +20,9 @@ public class Writer {
     @GeneratedValue(generator = "UUID")
     @Column(updatable = false, nullable = false)
     private UUID id;
+    @Column(nullable = false, length = 255)
     private String name;
-    @ManyToMany(mappedBy = "writers")
+    @ManyToMany(mappedBy = "writers", fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<Movie> movies;
 }
