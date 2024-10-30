@@ -20,9 +20,11 @@ public class Performer {
     @GeneratedValue(generator = "UUID")
     @Column(updatable = false, nullable = false)
     private UUID id;
+    @Column(nullable = false, length = 255)
     private String name;
+    @Column(length = 255)
     private String role;
-    @ManyToMany(mappedBy = "performers")
+    @ManyToMany(mappedBy = "performers", fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<Movie> movies;
 }

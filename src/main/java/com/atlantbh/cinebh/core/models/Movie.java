@@ -24,17 +24,26 @@ public class Movie {
     @GeneratedValue(generator = "UUID")
     @Column(updatable = false, nullable = false)
     private UUID id;
+    @Column(nullable = false, length = 255)
     private String title;
+    @Column(length = 45)
     private String rating;
+    @Column(length = 45)
     private String language;
+    @Column(length = 45)
     private String length;
+    @Column
     private String description;
+    @Column(length = 255)
     private String director;
+    @Column
     private LocalDate startDate;
+    @Column
     private LocalDate endDate;
+    @Column(length = 255)
     private String trailerUrl;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "movieWriter",
             joinColumns = @JoinColumn(name = "movieId"),
@@ -43,7 +52,7 @@ public class Movie {
     @JsonManagedReference
     private Set<Writer> writers;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "movieGenre",
             joinColumns = @JoinColumn(name = "movieId"),
@@ -52,7 +61,7 @@ public class Movie {
     @JsonManagedReference
     private Set<Genre> genres;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "moviePerformer",
             joinColumns = @JoinColumn(name = "movieId"),
@@ -61,12 +70,12 @@ public class Movie {
     @JsonManagedReference
     private Set<Performer> performers;
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private Set<MovieImage> images;
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private Set<MovieRating> ratings;
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
     private Set<Projection> projections;
 }

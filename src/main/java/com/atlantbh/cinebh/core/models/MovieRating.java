@@ -21,9 +21,11 @@ public class MovieRating {
     @GeneratedValue(generator = "UUID")
     @Column(updatable = false, nullable = false)
     private UUID id;
+    @Column(nullable = false, length = 45)
     private String name;
+    @Column(length = 45)
     private String rating;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movieId")
     private Movie movie;
 }
