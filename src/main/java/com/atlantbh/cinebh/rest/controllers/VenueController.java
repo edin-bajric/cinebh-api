@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/venues")
 @RequiredArgsConstructor
@@ -23,5 +25,10 @@ public class VenueController {
     public ResponseEntity<Page<Venue>> getVenues(@RequestParam (name = "page", defaultValue = "0") int page,
                                                  @RequestParam(name = "size", defaultValue = "4") int size) {
         return ResponseEntity.ok(venueService.getVenues(createPageable(page, size)));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Venue>> getVenues() {
+        return ResponseEntity.ok(venueService.getVenues());
     }
 }
