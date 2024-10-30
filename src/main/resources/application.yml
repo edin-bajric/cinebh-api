@@ -1,0 +1,22 @@
+configuration:
+  swagger:
+    app: 'CineBH API'
+    description: 'CinemaApp is a web-based ticketing application that allows online movie ticket purchases for a specific movie company with multiple subsidiaries across the country/world.'
+    developer: 'Edin Bajrić'
+    email: 'edin.bajric@stu.ibu.edu.ba'
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  flyway:
+    enabled: true
+    schemas: [cinebh]
+    defaultSchema: cinebh
+  jpa:
+    hibernate:
+      ddlAuto: validate
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
