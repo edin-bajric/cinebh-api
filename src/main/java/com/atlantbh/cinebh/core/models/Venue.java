@@ -1,6 +1,6 @@
 package com.atlantbh.cinebh.core.models;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,6 +33,6 @@ public class Venue {
     @Column(length = 255)
     private String imageURL;
     @OneToMany(mappedBy = "venue", fetch = FetchType.LAZY)
-    private Set<Projection> projections;
+    private List<Projection> projections;
 }
 
