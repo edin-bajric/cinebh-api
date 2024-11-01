@@ -16,26 +16,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MovieController {
     private final MovieService movieService;
+    private static final String DEFAULT_PAGE = "0";
+    private static final String DEFAULT_SIZE = "4";
 
     private Pageable createPageable(int page, int size) {
         return PageRequest.of(page, size);
     }
 
     @GetMapping("/")
-    public ResponseEntity<Page<Movie>> getMovies(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                 @RequestParam(name = "size", defaultValue = "4") int size) {
+    public ResponseEntity<Page<Movie>> getMovies(@RequestParam(name = "page", defaultValue = DEFAULT_PAGE) int page,
+                                                 @RequestParam(name = "size", defaultValue = DEFAULT_SIZE) int size) {
         return ResponseEntity.ok(movieService.getMovies(createPageable(page, size)));
     }
 
     @GetMapping("/currently-showing")
-    public ResponseEntity<Page<Movie>> currentlyShowing(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                        @RequestParam(name = "size", defaultValue = "4") int size) {
+    public ResponseEntity<Page<Movie>> currentlyShowing(@RequestParam(name = "page", defaultValue = DEFAULT_PAGE) int page,
+                                                        @RequestParam(name = "size", defaultValue = DEFAULT_SIZE) int size) {
         return ResponseEntity.ok(movieService.getCurrentlyShowing(createPageable(page, size)));
     }
 
     @GetMapping("/upcoming")
-    public ResponseEntity<Page<Movie>> upcomingMovies(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                      @RequestParam(name = "size", defaultValue = "4") int size) {
+    public ResponseEntity<Page<Movie>> upcomingMovies(@RequestParam(name = "page", defaultValue = DEFAULT_PAGE) int page,
+                                                      @RequestParam(name = "size", defaultValue = DEFAULT_SIZE) int size) {
         return ResponseEntity.ok(movieService.getUpcomingMovies(createPageable(page, size)));
     }
 
