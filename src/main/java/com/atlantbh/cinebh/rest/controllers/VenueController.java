@@ -16,14 +16,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VenueController {
     private final VenueService venueService;
+    private static final String DEFAULT_PAGE = "0";
+    private static final String DEFAULT_SIZE = "4";
 
     private Pageable createPageable(int page, int size) {
         return PageRequest.of(page, size);
     }
 
     @GetMapping("/")
-    public ResponseEntity<Page<Venue>> getVenues(@RequestParam (name = "page", defaultValue = "0") int page,
-                                                 @RequestParam(name = "size", defaultValue = "4") int size) {
+    public ResponseEntity<Page<Venue>> getVenues(@RequestParam (name = "page", defaultValue = DEFAULT_PAGE) int page,
+                                                 @RequestParam(name = "size", defaultValue = DEFAULT_SIZE) int size) {
         return ResponseEntity.ok(venueService.getVenues(createPageable(page, size)));
     }
 
