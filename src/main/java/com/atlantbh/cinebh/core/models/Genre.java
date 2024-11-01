@@ -1,6 +1,6 @@
 package com.atlantbh.cinebh.core.models;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -24,5 +24,5 @@ public class Genre {
     private String name;
     @ManyToMany(mappedBy = "genres", fetch = FetchType.LAZY)
     @JsonBackReference
-    private Set<Movie> movies;
+    private List<Movie> movies;
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Setter
@@ -50,7 +50,7 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "writerId")
     )
     @JsonManagedReference
-    private Set<Writer> writers;
+    private List<Writer> writers;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -59,7 +59,7 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "genreId")
     )
     @JsonManagedReference
-    private Set<Genre> genres;
+    private List<Genre> genres;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -68,14 +68,14 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "performerId")
     )
     @JsonManagedReference
-    private Set<Performer> performers;
+    private List<Performer> performers;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
-    private Set<MovieImage> images;
+    private List<MovieImage> images;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
-    private Set<MovieRating> ratings;
+    private List<MovieRating> ratings;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
-    private Set<Projection> projections;
+    private List<Projection> projections;
 }
