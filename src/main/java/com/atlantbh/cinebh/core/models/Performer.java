@@ -1,6 +1,6 @@
 package com.atlantbh.cinebh.core.models;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -26,5 +26,5 @@ public class Performer {
     private String role;
     @ManyToMany(mappedBy = "performers", fetch = FetchType.LAZY)
     @JsonBackReference
-    private Set<Movie> movies;
+    private List<Movie> movies;
 }

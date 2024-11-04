@@ -8,6 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,5 +33,16 @@ public class MovieService {
         LocalDate today = LocalDate.now().plusDays(1);
         LocalDate upcomingDate = today.plusDays(UPCOMING_DAYS_RANGE);
         return movieRepository.findByStartDateBetween(today, upcomingDate, pageable);
+    }
+
+    public List<Movie> getFeatured() {
+        Page<Movie> currentlyShowing = getCurrentlyShowing(Pageable.unpaged());
+        List<Movie> moviesList = new ArrayList<>(currentlyShowing.getContent());
+
+        Collections.shuffle(moviesList);
+
+        return moviesList.stream()
+                .limit(3)
+                .collect(Collectors.toList());
     }
 }
