@@ -1,5 +1,6 @@
 package com.atlantbh.cinebh.core.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class ProjectionTime {
     private UUID id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "projectionId", nullable = false)
+    @JsonBackReference
     private Projection projection;
     @Column(nullable = false)
     private java.sql.Time time;
