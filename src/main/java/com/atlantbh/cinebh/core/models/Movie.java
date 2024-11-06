@@ -77,5 +77,6 @@ public class Movie {
     private List<MovieRating> ratings;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Projection> projections;
 }
