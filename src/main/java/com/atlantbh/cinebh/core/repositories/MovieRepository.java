@@ -13,4 +13,6 @@ import java.util.UUID;
 public interface MovieRepository extends JpaRepository<Movie, UUID> {
     Page<Movie> findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate dateToCheckStart, LocalDate dateToCheckEnd, Pageable pageable);
     Page<Movie> findByStartDateBetween(LocalDate currentDate, LocalDate upcomingDate, Pageable pageable);
+    Page<Movie> findByTitleContainingIgnoreCaseAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+            String title, LocalDate dateToCheckStart, LocalDate dateToCheckEnd, Pageable pageable);
 }

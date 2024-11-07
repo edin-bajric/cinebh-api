@@ -19,18 +19,23 @@ public class MovieService {
     private final MovieRepository movieRepository;
 
     private static final int UPCOMING_DAYS_RANGE = 14;
+    private static final LocalDate TODAY = LocalDate.now();
 
     public Page<Movie> getMovies(Pageable pageable) {
         return movieRepository.findAll(pageable);
     }
 
     public Page<Movie> getCurrentlyShowing(Pageable pageable) {
-        LocalDate today = LocalDate.now();
-        return movieRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(today, today, pageable);
+        return movieRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(TODAY, TODAY, pageable);
+    }
+
+    public Page<Movie> searchCurrentlyShowing(String title, Pageable pageable) {
+        return movieRepository.findByTitleContainingIgnoreCaseAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
+                title, TODAY, TODAY, pageable);
     }
 
     public Page<Movie> getUpcomingMovies(Pageable pageable) {
-        LocalDate today = LocalDate.now().plusDays(1);
+        LocalDate today = TODAY.plusDays(1);
         LocalDate upcomingDate = today.plusDays(UPCOMING_DAYS_RANGE);
         return movieRepository.findByStartDateBetween(today, upcomingDate, pageable);
     }
