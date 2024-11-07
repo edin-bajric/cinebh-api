@@ -35,6 +35,15 @@ public class MovieController {
         return ResponseEntity.ok(movieService.getCurrentlyShowing(createPageable(page, size)));
     }
 
+    @GetMapping("/currently-showing/search")
+    public ResponseEntity<Page<Movie>> searchCurrentlyShowing(
+            @RequestParam(name = "query") String title,
+            @RequestParam(name = "page", defaultValue = DEFAULT_PAGE) int page,
+            @RequestParam(name = "size", defaultValue = DEFAULT_SIZE) int size) {
+
+        return ResponseEntity.ok(movieService.searchCurrentlyShowing(title, createPageable(page, size)));
+    }
+
     @GetMapping("/upcoming")
     public ResponseEntity<Page<Movie>> upcomingMovies(@RequestParam(name = "page", defaultValue = DEFAULT_PAGE) int page,
                                                       @RequestParam(name = "size", defaultValue = DEFAULT_SIZE) int size) {
