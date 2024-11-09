@@ -6,20 +6,18 @@ import com.atlantbh.cinebh.core.models.Movie;
 
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class MovieSpecification {
 
     public static Specification<Movie> filterCurrentlyShowing(String title, String city, String cinema, List<String> genres,
-                                                              String projectionTime, String startDate, String endDate) {
+                                                              String projectionTime, LocalDate date) {
         return Specification.where(hasTitle(title))
                 .and(hasCity(city))
                 .and(hasCinema(cinema))
                 .and(hasGenres(genres))
                 .and(hasProjectionTime(projectionTime))
-                .and(hasStartDate(startDate))
-                .and(hasEndDate(endDate));
+                .and(isShowingOnDate(date));
     }
 
     private static Specification<Movie> hasTitle(String title) {
@@ -69,24 +67,17 @@ public class MovieSpecification {
         };
     }
 
-    private static Specification<Movie> hasStartDate(String startDate) {
+    private static Specification<Movie> isShowingOnDate(LocalDate date) {
         return (root, query, criteriaBuilder) -> {
-            if (startDate == null || startDate.isEmpty()) {
+            if (date == null) {
                 return criteriaBuilder.conjunction();
             }
-            LocalDate start = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE);
-            return criteriaBuilder.greaterThanOrEqualTo(root.get("startDate"), start);
-        };
-    }
-
-    private static Specification<Movie> hasEndDate(String endDate) {
-        return (root, query, criteriaBuilder) -> {
-            if (endDate == null || endDate.isEmpty()) {
-                return criteriaBuilder.conjunction();
-            }
-            LocalDate end = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
-            return criteriaBuilder.lessThanOrEqualTo(root.get("endDate"), end);
+            return criteriaBuilder.and(
+                    criteriaBuilder.lessThanOrEqualTo(root.get("startDate"), date),
+                    criteriaBuilder.greaterThanOrEqualTo(root.get("endDate"), date)
+            );
         };
     }
 }
+
 

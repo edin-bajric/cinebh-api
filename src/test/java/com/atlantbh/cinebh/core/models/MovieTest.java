@@ -1,6 +1,5 @@
-package com.atlantbh.cinebh.core.model;
+package com.atlantbh.cinebh.core.models;
 
-import com.atlantbh.cinebh.core.models.Movie;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

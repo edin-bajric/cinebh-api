@@ -28,8 +28,8 @@ public class MovieService {
     }
 
     public Page<Movie> getFilteredCurrentlyShowing(String title, String city, String cinema, List<String> genres,
-                                                   String projectionTime, String startDate, String endDate, Pageable pageable) {
-        Specification<Movie> spec = MovieSpecification.filterCurrentlyShowing(title, city, cinema, genres, projectionTime, startDate, endDate);
+                                                   String projectionTime, LocalDate date, Pageable pageable) {
+        Specification<Movie> spec = MovieSpecification.filterCurrentlyShowing(title, city, cinema, genres, projectionTime, date);
         return movieRepository.findAll(spec, pageable);
     }
 
