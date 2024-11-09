@@ -4,7 +4,6 @@ import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import com.atlantbh.cinebh.core.models.Movie;
 
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,6 +17,15 @@ public class MovieSpecification {
                 .and(hasGenres(genres))
                 .and(hasProjectionTime(projectionTime))
                 .and(isShowingOnDate(date));
+    }
+
+    public static Specification<Movie> filterUpcomingMovies(String title, String city, String cinema, List<String> genres,
+                                                            LocalDate startDate, LocalDate endDate) {
+        return Specification.where(hasTitle(title))
+                .and(hasCity(city))
+                .and(hasCinema(cinema))
+                .and(hasGenres(genres))
+                .and(isUpcomingBetween(startDate, endDate));
     }
 
     private static Specification<Movie> hasTitle(String title) {
@@ -78,6 +86,16 @@ public class MovieSpecification {
             );
         };
     }
+
+    private static Specification<Movie> isUpcomingBetween(LocalDate startDate, LocalDate endDate) {
+        return (root, query, criteriaBuilder) -> {
+            if (startDate == null || endDate == null) {
+                return criteriaBuilder.conjunction();
+            }
+            return criteriaBuilder.and(
+                    criteriaBuilder.greaterThanOrEqualTo(root.get("startDate"), startDate),
+                    criteriaBuilder.lessThanOrEqualTo(root.get("startDate"), endDate)
+            );
+        };
+    }
 }
-
-

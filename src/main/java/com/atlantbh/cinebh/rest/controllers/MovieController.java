@@ -51,10 +51,23 @@ public class MovieController {
 
 
     @GetMapping("/upcoming")
-    public ResponseEntity<Page<Movie>> upcomingMovies(@RequestParam(name = "page", defaultValue = DEFAULT_PAGE) int page,
-                                                      @RequestParam(name = "size", defaultValue = DEFAULT_SIZE) int size) {
-        return ResponseEntity.ok(movieService.getUpcomingMovies(createPageable(page, size)));
+    public ResponseEntity<Page<Movie>> upcomingMovies(
+            @RequestParam(name = "title", required = false) String title,
+            @RequestParam(name = "city", required = false) String city,
+            @RequestParam(name = "cinema", required = false) String cinema,
+            @RequestParam(name = "genres", required = false) List<String> genres,
+            @RequestParam(name = "startDate", required = false) LocalDate startDate,
+            @RequestParam(name = "endDate", required = false) LocalDate endDate,
+            @RequestParam(name = "page", defaultValue = DEFAULT_PAGE) int page,
+            @RequestParam(name = "size", defaultValue = DEFAULT_SIZE) int size) {
+
+        Pageable pageable = createPageable(page, size);
+
+        return ResponseEntity.ok(
+                movieService.getFilteredUpcomingMovies(title, city, cinema, genres, startDate, endDate, pageable)
+        );
     }
+
 
     @RequestMapping(method = RequestMethod.GET, path = "/featured")
     public ResponseEntity<List<Movie>> featured() {

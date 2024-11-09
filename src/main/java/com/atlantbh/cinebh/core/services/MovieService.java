@@ -33,11 +33,16 @@ public class MovieService {
         return movieRepository.findAll(spec, pageable);
     }
 
-    public Page<Movie> getUpcomingMovies(Pageable pageable) {
-        LocalDate today = TODAY.plusDays(1);
-        LocalDate upcomingDate = today.plusDays(UPCOMING_DAYS_RANGE);
-        return movieRepository.findByStartDateBetween(today, upcomingDate, pageable);
+    public Page<Movie> getFilteredUpcomingMovies(String title, String city, String cinema, List<String> genres,
+                                                 LocalDate startDate, LocalDate endDate, Pageable pageable) {
+        if (startDate == null || endDate == null) {
+            startDate = LocalDate.now();
+            endDate = startDate.plusDays(UPCOMING_DAYS_RANGE);
+        }
+        Specification<Movie> spec = MovieSpecification.filterUpcomingMovies(title, city, cinema, genres, startDate, endDate);
+        return movieRepository.findAll(spec, pageable);
     }
+
 
     public Page<Movie> getCurrentlyShowing(Pageable pageable) {
         return movieRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(TODAY, TODAY, pageable);
