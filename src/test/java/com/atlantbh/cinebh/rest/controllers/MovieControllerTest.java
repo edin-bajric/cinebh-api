@@ -73,5 +73,27 @@ class MovieControllerTest {
         assertEquals("Test Movie", Objects.requireNonNull(response.getBody()).getContent().get(0).getTitle());
         verify(movieService, times(1)).getMovies(any());
     }
+
+    @Test
+    void testUpcomingMovies() {
+        Movie movie = new Movie();
+        movie.setTitle("Upcoming Movie");
+        Page<Movie> moviePage = new PageImpl<>(Collections.singletonList(movie));
+
+        when(movieService.getFilteredUpcomingMovies(any(), any(), any(), any(), any(LocalDate.class), any(LocalDate.class), any()))
+                .thenReturn(moviePage);
+
+        ResponseEntity<Page<Movie>> response = movieController.upcomingMovies(
+                "Some title", "Some city", "Some cinema", List.of("Genre"),
+                LocalDate.now(), LocalDate.now().plusDays(7), DEFAULT_PAGE, DEFAULT_SIZE
+        );
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(1, Objects.requireNonNull(response.getBody()).getTotalElements());
+        assertEquals("Upcoming Movie", response.getBody().getContent().get(0).getTitle());
+
+        verify(movieService, times(1))
+                .getFilteredUpcomingMovies(any(), any(), any(), any(), any(LocalDate.class), any(LocalDate.class), any());
+    }
 }
 
