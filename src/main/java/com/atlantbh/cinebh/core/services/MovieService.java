@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,14 +36,12 @@ public class MovieService {
 
     public Page<Movie> getFilteredUpcomingMovies(String title, String city, String cinema, List<String> genres,
                                                  LocalDate startDate, LocalDate endDate, Pageable pageable) {
-        if (startDate == null || endDate == null) {
-            startDate = LocalDate.now();
-            endDate = startDate.plusDays(UPCOMING_DAYS_RANGE);
-        }
-        Specification<Movie> spec = MovieSpecification.filterUpcomingMovies(title, city, cinema, genres, startDate, endDate);
+        LocalDate finalStartDate = Optional.ofNullable(startDate).orElse(TODAY);
+        LocalDate finalEndDate = Optional.ofNullable(endDate).orElse(finalStartDate.plusDays(UPCOMING_DAYS_RANGE));
+
+        Specification<Movie> spec = MovieSpecification.filterUpcomingMovies(title, city, cinema, genres, finalStartDate, finalEndDate);
         return movieRepository.findAll(spec, pageable);
     }
-
 
     public Page<Movie> getCurrentlyShowing(Pageable pageable) {
         return movieRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(TODAY, TODAY, pageable);
