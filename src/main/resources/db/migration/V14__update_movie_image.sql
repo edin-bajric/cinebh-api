@@ -1,0 +1,1 @@
+update movieImage set movieId = (select id from movie where title = 'The Wild Robot') where url = 'https://i.postimg.cc/Zn34PCmz/robot.jpg';
