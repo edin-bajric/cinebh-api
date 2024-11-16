@@ -1,0 +1,2 @@
+update projection set venueId = (select id from venue where city = 'Tuzla') where movieId = (select id from movie where title = 'Hellboy: The Crooked Man');
+update projection set venueId = (select id from venue where city = 'Sarajevo' and name = 'Cinestar') where movieId = (select id from movie where title = 'The Wild Robot');
