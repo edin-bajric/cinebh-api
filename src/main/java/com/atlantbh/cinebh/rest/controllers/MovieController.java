@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/movies")
@@ -28,6 +29,11 @@ public class MovieController {
     public ResponseEntity<Page<Movie>> getMovies(@RequestParam(name = "page", defaultValue = DEFAULT_PAGE) int page,
                                                  @RequestParam(name = "size", defaultValue = DEFAULT_SIZE) int size) {
         return ResponseEntity.ok(movieService.getMovies(createPageable(page, size)));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Movie> getMovie(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(movieService.getMovie(id));
     }
 
     @GetMapping("/currently-showing")

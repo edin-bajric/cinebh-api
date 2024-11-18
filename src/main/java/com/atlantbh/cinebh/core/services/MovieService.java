@@ -28,6 +28,11 @@ public class MovieService {
         return movieRepository.findAll(pageable);
     }
 
+    public Movie getMovie(UUID id) {
+        Optional<Movie> movie = movieRepository.findById(id);
+        return movie.orElse(null);
+    }
+
     public Page<Movie> getFilteredCurrentlyShowing(String title, String city, String cinema, List<String> genres,
                                                    String projectionTime, LocalDate date, Pageable pageable) {
         Specification<Movie> spec = MovieSpecification.filterCurrentlyShowing(title, city, cinema, genres, projectionTime, date);
