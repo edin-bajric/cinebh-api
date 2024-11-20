@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class MovieServiceTest {
+    private static final int UPCOMING_DAYS_RANGE = 14;
 
     @InjectMocks
     private MovieService movieService;
@@ -102,6 +103,61 @@ class MovieServiceTest {
                 List.of("Nonexistent Genre"), "00:00", LocalDate.now(), pageable);
 
         assertEquals(0, result.getTotalElements());
+    }
+
+    @Test
+    void testGetFilteredUpcomingMoviesWithValidDates() {
+        Movie movie = new Movie();
+        movie.setTitle("Upcoming Movie");
+        List<Movie> movies = Collections.singletonList(movie);
+        Page<Movie> moviePage = new PageImpl<>(movies);
+        Pageable pageable = PageRequest.of(0, 4);
+        LocalDate startDate = LocalDate.now().plusDays(1);
+        LocalDate endDate = LocalDate.now().plusDays(UPCOMING_DAYS_RANGE);
+
+        when(movieRepository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(moviePage);
+
+        Page<Movie> result = movieService.getFilteredUpcomingMovies(
+                "Upcoming Movie", "City", "Cinema", List.of("Drama"), startDate, endDate, pageable);
+
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Upcoming Movie", result.getContent().get(0).getTitle());
+        verify(movieRepository, times(1)).findAll(any(Specification.class), any(Pageable.class));
+    }
+
+    @Test
+    void testGetFilteredUpcomingMoviesWithNullDates() {
+        Movie movie = new Movie();
+        movie.setTitle("Default Upcoming Movie");
+        List<Movie> movies = Collections.singletonList(movie);
+        Page<Movie> moviePage = new PageImpl<>(movies);
+        Pageable pageable = PageRequest.of(0, 4);
+
+        when(movieRepository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(moviePage);
+
+        Page<Movie> result = movieService.getFilteredUpcomingMovies(
+                "Default Upcoming Movie", "City", "Cinema", List.of("Action"), null, null, pageable);
+
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Default Upcoming Movie", result.getContent().get(0).getTitle());
+        verify(movieRepository, times(1)).findAll(any(Specification.class), any(Pageable.class));
+    }
+
+    @Test
+    void testGetFilteredUpcomingMoviesWithNoResults() {
+        Page<Movie> emptyPage = new PageImpl<>(Collections.emptyList());
+        Pageable pageable = PageRequest.of(0, 4);
+        LocalDate startDate = LocalDate.now().plusDays(1);
+        LocalDate endDate = LocalDate.now().plusDays(UPCOMING_DAYS_RANGE);
+
+        when(movieRepository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(emptyPage);
+
+        Page<Movie> result = movieService.getFilteredUpcomingMovies(
+                "Nonexistent Movie", "Nonexistent City", "Nonexistent Cinema",
+                List.of("Fantasy"), startDate, endDate, pageable);
+
+        assertEquals(0, result.getTotalElements());
+        verify(movieRepository, times(1)).findAll(any(Specification.class), any(Pageable.class));
     }
 }
 
