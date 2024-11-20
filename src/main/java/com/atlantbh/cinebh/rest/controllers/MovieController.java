@@ -75,7 +75,7 @@ public class MovieController {
     }
 
 
-    @RequestMapping(method = RequestMethod.GET, path = "/featured")
+    @GetMapping("/featured")
     public ResponseEntity<List<Movie>> featured() {
         return ResponseEntity.ok(movieService.getFeatured());
     }
