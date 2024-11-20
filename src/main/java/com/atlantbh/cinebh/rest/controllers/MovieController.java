@@ -79,4 +79,11 @@ public class MovieController {
     public ResponseEntity<List<Movie>> featured() {
         return ResponseEntity.ok(movieService.getFeatured());
     }
+
+    @GetMapping("/{movieId}/similar")
+    public ResponseEntity<Page<Movie>> similarMovies(@PathVariable("movieId") UUID movieId,
+                                                     @RequestParam(name = "page", defaultValue = DEFAULT_PAGE) int page,
+                                                     @RequestParam(name = "size", defaultValue = DEFAULT_SIZE) int size) {
+        return ResponseEntity.ok(movieService.getSimilarMovies(movieId, createPageable(page, size)));
+    }
 }
