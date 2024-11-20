@@ -1,5 +1,6 @@
 package com.atlantbh.cinebh.core.services;
 
+import com.atlantbh.cinebh.core.models.Genre;
 import com.atlantbh.cinebh.core.models.Movie;
 import com.atlantbh.cinebh.core.repositories.MovieRepository;
 import com.atlantbh.cinebh.core.spec.MovieSpecification;
@@ -62,4 +63,20 @@ public class MovieService {
                 .limit(3)
                 .collect(Collectors.toList());
     }
+
+    public Page<Movie> getSimilarMovies(UUID movieId, Pageable pageable) {
+        Movie movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new IllegalArgumentException("Movie not found"));
+
+        List<UUID> genreIds = movie.getGenres().stream()
+                .map(Genre::getId)
+                .collect(Collectors.toList());
+
+        if (genreIds.isEmpty()) {
+            return Page.empty();
+        }
+
+        return movieRepository.findSimilarMovies(genreIds, movieId, pageable);
+    }
+
 }
