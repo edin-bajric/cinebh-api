@@ -1,5 +1,6 @@
 package com.atlantbh.cinebh.core.services;
 
+import com.atlantbh.cinebh.core.models.Genre;
 import com.atlantbh.cinebh.core.models.Movie;
 import com.atlantbh.cinebh.core.repositories.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,8 +17,10 @@ import org.springframework.data.jpa.domain.Specification;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -158,6 +161,90 @@ class MovieServiceTest {
 
         assertEquals(0, result.getTotalElements());
         verify(movieRepository, times(1)).findAll(any(Specification.class), any(Pageable.class));
+    }
+
+    @Test
+    void getMovie_validId_returnsMovie() {
+        UUID movieId = UUID.randomUUID();
+        Movie mockMovie = new Movie();
+        mockMovie.setId(movieId);
+
+        when(movieRepository.findById(movieId)).thenReturn(Optional.of(mockMovie));
+
+        Movie result = movieService.getMovie(movieId);
+
+        assertNotNull(result);
+        assertEquals(movieId, result.getId());
+        verify(movieRepository, times(1)).findById(movieId);
+    }
+
+    @Test
+    void getMovie_invalidId_returnsNull() {
+        UUID movieId = UUID.randomUUID();
+
+        when(movieRepository.findById(movieId)).thenReturn(Optional.empty());
+
+        Movie result = movieService.getMovie(movieId);
+
+        assertNull(result);
+        verify(movieRepository, times(1)).findById(movieId);
+    }
+
+    @Test
+    void getSimilarMovies_validMovieId_returnsPageOfMovies() {
+        UUID movieId = UUID.randomUUID();
+        Genre genre = new Genre();
+        genre.setId(UUID.randomUUID());
+        Movie mockMovie = new Movie();
+        mockMovie.setId(movieId);
+        mockMovie.setGenres(List.of(genre));
+
+        List<Movie> similarMovies = List.of(new Movie(), new Movie());
+        Page<Movie> mockPage = new PageImpl<>(similarMovies);
+        Pageable pageable = Pageable.ofSize(4);
+
+        when(movieRepository.findById(movieId)).thenReturn(Optional.of(mockMovie));
+        when(movieRepository.findSimilarMovies(List.of(genre.getId()), movieId, pageable)).thenReturn(mockPage);
+
+        Page<Movie> result = movieService.getSimilarMovies(movieId, pageable);
+
+        assertNotNull(result);
+        assertEquals(2, result.getContent().size());
+        verify(movieRepository, times(1)).findById(movieId);
+        verify(movieRepository, times(1)).findSimilarMovies(List.of(genre.getId()), movieId, pageable);
+    }
+
+    @Test
+    void getSimilarMovies_movieWithoutGenres_returnsEmptyPage() {
+        UUID movieId = UUID.randomUUID();
+        Movie mockMovie = new Movie();
+        mockMovie.setId(movieId);
+        mockMovie.setGenres(Collections.emptyList());
+
+        Pageable pageable = Pageable.ofSize(4);
+
+        when(movieRepository.findById(movieId)).thenReturn(Optional.of(mockMovie));
+
+        Page<Movie> result = movieService.getSimilarMovies(movieId, pageable);
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        verify(movieRepository, times(1)).findById(movieId);
+        verify(movieRepository, never()).findSimilarMovies(anyList(), any(), any());
+    }
+
+    @Test
+    void getSimilarMovies_invalidMovieId_throwsException() {
+        UUID movieId = UUID.randomUUID();
+
+        when(movieRepository.findById(movieId)).thenReturn(Optional.empty());
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+                () -> movieService.getSimilarMovies(movieId, Pageable.ofSize(4)));
+
+        assertEquals("Movie not found", exception.getMessage());
+        verify(movieRepository, times(1)).findById(movieId);
+        verify(movieRepository, never()).findSimilarMovies(anyList(), any(), any());
     }
 }
 

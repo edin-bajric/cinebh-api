@@ -75,5 +75,4 @@ public class MovieService {
 
         return movieRepository.findSimilarMovies(genreIds, movieId, pageable);
     }
-
 }
