@@ -55,7 +55,6 @@ public class MovieController {
         );
     }
 
-
     @GetMapping("/upcoming")
     public ResponseEntity<Page<Movie>> upcomingMovies(
             @RequestParam(name = "title", required = false) String title,
@@ -73,7 +72,6 @@ public class MovieController {
                 movieService.getFilteredUpcomingMovies(title, city, cinema, genres, startDate, endDate, pageable)
         );
     }
-
 
     @GetMapping("/featured")
     public ResponseEntity<List<Movie>> featured() {
