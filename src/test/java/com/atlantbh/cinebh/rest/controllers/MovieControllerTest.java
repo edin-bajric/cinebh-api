@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -16,8 +17,9 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -94,6 +96,69 @@ class MovieControllerTest {
 
         verify(movieService, times(1))
                 .getFilteredUpcomingMovies(any(), any(), any(), any(), any(LocalDate.class), any(LocalDate.class), any());
+    }
+
+    @Test
+    void getMovie_validId_returnsMovie() {
+        UUID movieId = UUID.randomUUID();
+        Movie mockMovie = new Movie();
+        mockMovie.setId(movieId);
+
+        when(movieService.getMovie(movieId)).thenReturn(mockMovie);
+
+        ResponseEntity<Movie> response = movieController.getMovie(movieId);
+
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCode().value());
+        assertEquals(movieId, Objects.requireNonNull(response.getBody()).getId());
+        verify(movieService, times(1)).getMovie(movieId);
+    }
+
+    @Test
+    void getMovie_invalidId_returnsNull() {
+        UUID movieId = UUID.randomUUID();
+
+        when(movieService.getMovie(movieId)).thenReturn(null);
+
+        ResponseEntity<Movie> response = movieController.getMovie(movieId);
+
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCode().value());
+        assertNull(response.getBody());
+        verify(movieService, times(1)).getMovie(movieId);
+    }
+
+    @Test
+    void similarMovies_validMovieId_returnsPageOfMovies() {
+        UUID movieId = UUID.randomUUID();
+        Movie similarMovie1 = new Movie();
+        Movie similarMovie2 = new Movie();
+        Page<Movie> mockPage = new PageImpl<>(List.of(similarMovie1, similarMovie2));
+        Pageable pageable = Pageable.ofSize(4);
+
+        when(movieService.getSimilarMovies(movieId, pageable)).thenReturn(mockPage);
+
+        ResponseEntity<Page<Movie>> response = movieController.similarMovies(movieId, DEFAULT_PAGE, DEFAULT_SIZE);
+
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCode().value());
+        assertEquals(2, Objects.requireNonNull(response.getBody()).getContent().size());
+        verify(movieService, times(1)).getSimilarMovies(movieId, pageable);
+    }
+
+    @Test
+    void similarMovies_noSimilarMovies_returnsEmptyPage() {
+        UUID movieId = UUID.randomUUID();
+        Page<Movie> mockPage = Page.empty(Pageable.ofSize(4));
+
+        when(movieService.getSimilarMovies(movieId, Pageable.ofSize(4))).thenReturn(mockPage);
+
+        ResponseEntity<Page<Movie>> response = movieController.similarMovies(movieId, DEFAULT_PAGE, DEFAULT_SIZE);
+
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCode().value());
+        assertTrue(Objects.requireNonNull(response.getBody()).isEmpty());
+        verify(movieService, times(1)).getSimilarMovies(movieId, Pageable.ofSize(4));
     }
 }
 
