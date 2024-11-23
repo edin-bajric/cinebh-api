@@ -1,0 +1,1 @@
+alter table appUser rename role to type;
