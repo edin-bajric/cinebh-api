@@ -1,14 +1,16 @@
 package com.atlantbh.cinebh.rest.dto;
 
 import com.atlantbh.cinebh.core.models.AppUser;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 import java.util.UUID;
 
+@Setter
 @Getter
-@Builder
+@NoArgsConstructor
 public class AppUserDTO {
     private UUID id;
     private String firstName;
@@ -20,17 +22,15 @@ public class AppUserDTO {
     private String country;
     private String imageUrl;
 
-    public static AppUserDTO fromEntity(AppUser appUser) {
-        return AppUserDTO.builder()
-                .id(appUser.getId())
-                .firstName(appUser.getFirstName())
-                .lastName(appUser.getLastName())
-                .email(appUser.getEmail())
-                .phone(appUser.getPhone())
-                .type(appUser.getType().name())
-                .city(appUser.getCity())
-                .country(appUser.getCountry())
-                .imageUrl(appUser.getImageUrl())
-                .build();
+    public AppUserDTO(AppUser appUser) {
+        this.id = appUser.getId();
+        this.firstName = appUser.getFirstName();
+        this.lastName = appUser.getLastName();
+        this.email = appUser.getEmail();
+        this.phone = appUser.getPhone();
+        this.type = appUser.getType().name();
+        this.city = appUser.getCity();
+        this.country = appUser.getCountry();
+        this.imageUrl = appUser.getImageUrl();
     }
 }
