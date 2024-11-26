@@ -23,7 +23,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
 
-    public AppUserDTO signUp(AppUserRequestDTO appUserRequestDTO) {
+    public LoginDTO signUp(AppUserRequestDTO appUserRequestDTO) {
         appUserRequestDTO.setPassword(
                 passwordEncoder.encode(appUserRequestDTO.getPassword())
         );
@@ -33,7 +33,9 @@ public class AuthService {
         }
         AppUser appUser = appUserRepository.save(appUserRequestDTO.toEntity());
 
-        return new AppUserDTO(appUser);
+        String jwt = jwtService.generateToken(appUser);
+
+        return new LoginDTO(jwt);
     }
 
     public LoginDTO signIn(LoginRequestDTO loginRequestDTO) {
