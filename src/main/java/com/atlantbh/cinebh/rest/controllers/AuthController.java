@@ -2,7 +2,6 @@ package com.atlantbh.cinebh.rest.controllers;
 
 import com.atlantbh.cinebh.core.services.AuthService;
 import com.atlantbh.cinebh.core.services.JwtService;
-import com.atlantbh.cinebh.rest.dto.AppUserDTO;
 import com.atlantbh.cinebh.rest.dto.AppUserRequestDTO;
 import com.atlantbh.cinebh.rest.dto.LoginDTO;
 import com.atlantbh.cinebh.rest.dto.LoginRequestDTO;
@@ -18,7 +17,7 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<AppUserDTO> signUp(@RequestBody AppUserRequestDTO appUserRequestDTO) {
+    public ResponseEntity<LoginDTO> signUp(@RequestBody AppUserRequestDTO appUserRequestDTO) {
         return ResponseEntity.ok(authService.signUp(appUserRequestDTO));
     }
 
