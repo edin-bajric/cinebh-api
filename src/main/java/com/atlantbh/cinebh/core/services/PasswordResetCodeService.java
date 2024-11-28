@@ -5,6 +5,7 @@ import com.atlantbh.cinebh.core.models.PasswordResetCode;
 import com.atlantbh.cinebh.core.repositories.PasswordResetCodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.atlantbh.cinebh.core.models.PasswordResetCode.generateResetCode;
 
@@ -20,5 +21,15 @@ public class PasswordResetCodeService {
         passwordResetCode.setCode(resetCode);
         passwordResetCodeRepository.save(passwordResetCode);
         return resetCode;
+    }
+
+    @Transactional
+    public boolean validateCode(AppUser appUser, String code) {
+        return passwordResetCodeRepository.findByAppUserAndCodeAndUsed(appUser, code, false)
+                .map(passwordResetCode -> {
+                    passwordResetCodeRepository.updateUsedByAppUserAndCode(appUser, code, true);
+                    return true;
+                })
+                .orElse(false);
     }
 }
