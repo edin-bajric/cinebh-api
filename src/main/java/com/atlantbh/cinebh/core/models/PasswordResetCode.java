@@ -22,7 +22,12 @@ public class PasswordResetCode {
     @JoinColumn(name = "appUserId")
     private AppUser appUser;
     @Column(nullable = false, length = 4)
-    private char code;
+    private String code;
     @Column(nullable = false)
     private boolean used = false;
+
+    public static String generateResetCode() {
+        int randomCode = 1000 + (int) (Math.random() * 9000);
+        return String.valueOf(randomCode);
+    }
 }
