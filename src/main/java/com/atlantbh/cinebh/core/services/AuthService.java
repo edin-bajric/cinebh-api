@@ -3,7 +3,6 @@ package com.atlantbh.cinebh.core.services;
 import com.atlantbh.cinebh.core.exceptions.auth.UserAlreadyExistsException;
 import com.atlantbh.cinebh.core.exceptions.repository.ResourceNotFoundException;
 import com.atlantbh.cinebh.core.repositories.AppUserRepository;
-import com.atlantbh.cinebh.rest.dto.AppUserDTO;
 import com.atlantbh.cinebh.rest.dto.AppUserRequestDTO;
 import com.atlantbh.cinebh.core.models.AppUser;
 import com.atlantbh.cinebh.rest.dto.LoginDTO;
