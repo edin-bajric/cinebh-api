@@ -29,10 +29,18 @@ public class MovieSpecification {
     }
 
     private static Specification<Movie> hasTitle(String title) {
-        return (root, query, criteriaBuilder) ->
-                (title == null || title.isEmpty())
-                        ? criteriaBuilder.conjunction()
-                        : criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), "%" + title.toLowerCase() + "%");
+        return (root, query, criteriaBuilder) -> {
+            if (title == null || title.trim().isEmpty()) {
+                return criteriaBuilder.conjunction();
+            }
+
+            String normalizedTitle = title.replaceAll("\\s+", " ").trim().toLowerCase();
+
+            return criteriaBuilder.like(
+                    criteriaBuilder.lower(root.get("title")),
+                    "%" + normalizedTitle + "%"
+            );
+        };
     }
 
     private static Specification<Movie> hasCity(String city) {
