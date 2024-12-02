@@ -20,9 +20,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyList;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class MovieServiceTest {
     private static final int UPCOMING_DAYS_RANGE = 14;
@@ -164,7 +173,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void getMovie_validId_returnsMovie() {
+    void validIdShouldReturnMovie() {
         UUID movieId = UUID.randomUUID();
         Movie mockMovie = new Movie();
         mockMovie.setId(movieId);
@@ -179,7 +188,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void getMovie_invalidId_returnsNull() {
+    void invalidIdShouldReturnNull() {
         UUID movieId = UUID.randomUUID();
 
         when(movieRepository.findById(movieId)).thenReturn(Optional.empty());
@@ -191,7 +200,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void getSimilarMovies_validMovieId_returnsPageOfMovies() {
+    void validMovieIdShouldReturnPageOfMovies() {
         UUID movieId = UUID.randomUUID();
         Genre genre = new Genre();
         genre.setId(UUID.randomUUID());
@@ -215,7 +224,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void getSimilarMovies_movieWithoutGenres_returnsEmptyPage() {
+    void movieWithoutGenresShouldReturnEmptyPage() {
         UUID movieId = UUID.randomUUID();
         Movie mockMovie = new Movie();
         mockMovie.setId(movieId);
@@ -234,7 +243,7 @@ class MovieServiceTest {
     }
 
     @Test
-    void getSimilarMovies_invalidMovieId_throwsException() {
+    void invalidMovieIdShouldThrowException() {
         UUID movieId = UUID.randomUUID();
 
         when(movieRepository.findById(movieId)).thenReturn(Optional.empty());
