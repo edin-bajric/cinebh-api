@@ -15,7 +15,7 @@ import java.util.*;
 @Service
 public class JwtService {
     @Value("${security.jwt.secret}")
-    private String jwtSigningKey;
+    String jwtSigningKey;
     private final Set<String> blacklistedTokens = new HashSet<>();
 
     public String extractUserName(String token) {
@@ -58,7 +58,7 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
-    private Date extractExpiration(String token) {
+    Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
