@@ -1,5 +1,6 @@
 package com.atlantbh.cinebh.core.services;
 
+import com.atlantbh.cinebh.core.models.Genre;
 import com.atlantbh.cinebh.core.models.Movie;
 import com.atlantbh.cinebh.core.repositories.MovieRepository;
 import com.atlantbh.cinebh.core.spec.MovieSpecification;
@@ -10,10 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +24,11 @@ public class MovieService {
 
     public Page<Movie> getMovies(Pageable pageable) {
         return movieRepository.findAll(pageable);
+    }
+
+    public Movie getMovie(UUID id) {
+        Optional<Movie> movie = movieRepository.findById(id);
+        return movie.orElse(null);
     }
 
     public Page<Movie> getFilteredCurrentlyShowing(String title, String city, String cinema, List<String> genres,
@@ -56,5 +59,20 @@ public class MovieService {
         return moviesList.stream()
                 .limit(3)
                 .collect(Collectors.toList());
+    }
+
+    public Page<Movie> getSimilarMovies(UUID movieId, Pageable pageable) {
+        Movie movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new IllegalArgumentException("Movie not found"));
+
+        List<UUID> genreIds = movie.getGenres().stream()
+                .map(Genre::getId)
+                .collect(Collectors.toList());
+
+        if (genreIds.isEmpty()) {
+            return Page.empty();
+        }
+
+        return movieRepository.findSimilarMovies(genreIds, movieId, pageable);
     }
 }
