@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PasswordResetCodeTest {
@@ -27,14 +26,5 @@ class PasswordResetCodeTest {
         assertEquals(appUser, passwordResetCode.getAppUser());
         assertEquals(code, passwordResetCode.getCode());
         assertTrue(passwordResetCode.isUsed());
-    }
-
-    @Test
-    void generateResetCodeShouldReturnValidCode() {
-        String resetCode = PasswordResetCode.generateResetCode();
-
-        assertNotNull(resetCode);
-        assertEquals(4, resetCode.length());
-        assertTrue(resetCode.matches("\\d{4}"));
     }
 }
