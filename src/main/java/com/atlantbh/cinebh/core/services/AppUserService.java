@@ -51,10 +51,11 @@ public class AppUserService {
     }
 
     @Transactional
-    public void resetPassword(String email, String newPassword) {
+    public void resetPassword(String email,
+                              @NotBlank(message = "Password is required.")
+                              @Size(min = 8, message = "Password must be at least 8 characters long.")
+                              String newPassword) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        @NotBlank(message = "Password is required.")
-        @Size(min = 8, message = "Password must be at least 8 characters long.")
         String password = passwordEncoder.encode(newPassword);
         appUserRepository.updatePasswordByEmail(email, password);
     }
