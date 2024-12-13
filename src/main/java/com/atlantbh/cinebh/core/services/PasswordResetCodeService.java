@@ -7,12 +7,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.atlantbh.cinebh.core.models.PasswordResetCode.generateResetCode;
-
 @Service
 @RequiredArgsConstructor
 public class PasswordResetCodeService {
     private final PasswordResetCodeRepository passwordResetCodeRepository;
+
+    private static String generateResetCode() {
+        int randomCode = 1000 + (int) (Math.random() * 9000);
+        return String.valueOf(randomCode);
+    }
 
     public String insert(AppUser appUser) {
         String resetCode = generateResetCode();
