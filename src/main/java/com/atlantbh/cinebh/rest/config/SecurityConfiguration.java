@@ -41,6 +41,9 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/api/venues/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/genres/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "api/projection-times/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/sign-up").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/sign-in").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/auth/logout").permitAll()
                         .requestMatchers("/api/movies/**").authenticated()
                         .anyRequest().permitAll())
                 .sessionManagement(manager ->
