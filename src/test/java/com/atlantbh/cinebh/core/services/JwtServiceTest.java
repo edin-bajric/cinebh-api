@@ -12,7 +12,11 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JwtServiceTest {
 
@@ -26,6 +30,7 @@ class JwtServiceTest {
         MockitoAnnotations.openMocks(this);
         String secretKey = "mySuperSecretKeyForJwtTesting12345678901234567890";
         String encodedKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+
         Field signingKeyField = JwtService.class.getDeclaredField("jwtSigningKey");
         signingKeyField.setAccessible(true);
         signingKeyField.set(jwtService, encodedKey);
