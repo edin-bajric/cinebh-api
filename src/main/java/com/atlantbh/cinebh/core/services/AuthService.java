@@ -21,30 +21,46 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-
     public LoginDTO signUp(AppUserRequestDTO appUserRequestDTO) {
-        appUserRequestDTO.setPassword(
-                passwordEncoder.encode(appUserRequestDTO.getPassword())
-        );
+        try {
+            appUserRequestDTO.setPassword(
+                    passwordEncoder.encode(appUserRequestDTO.getPassword())
+            );
 
-        if (appUserRepository.existsByEmail(appUserRequestDTO.getEmail())) {
-            throw new UserAlreadyExistsException("User already exists");
+            if (appUserRepository.existsByEmail(appUserRequestDTO.getEmail())) {
+                throw new UserAlreadyExistsException("User already exists");
+            }
+
+            AppUser appUser = appUserRepository.save(appUserRequestDTO.toEntity());
+
+            String jwt = jwtService.generateToken(appUser);
+
+            return new LoginDTO(jwt);
+
+        } catch (UserAlreadyExistsException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new RuntimeException("An error occurred during user registration. Please try again.");
         }
-        AppUser appUser = appUserRepository.save(appUserRequestDTO.toEntity());
-
-        String jwt = jwtService.generateToken(appUser);
-
-        return new LoginDTO(jwt);
     }
 
     public LoginDTO signIn(LoginRequestDTO loginRequestDTO) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequestDTO.getEmail(), loginRequestDTO.getPassword()));
-        AppUser appUser = appUserRepository.findByEmail(loginRequestDTO.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("This user does not exist."));
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequestDTO.getEmail(), loginRequestDTO.getPassword())
+            );
 
-        String jwt = jwtService.generateToken(appUser);
+            AppUser appUser = appUserRepository.findByEmail(loginRequestDTO.getEmail())
+                    .orElseThrow(() -> new ResourceNotFoundException("This user does not exist."));
 
-        return new LoginDTO(jwt);
+            String jwt = jwtService.generateToken(appUser);
+
+            return new LoginDTO(jwt);
+
+        } catch (org.springframework.security.authentication.BadCredentialsException ex) {
+            throw new ResourceNotFoundException("Invalid email or password.");
+        } catch (Exception ex) {
+            throw new RuntimeException("An error occurred during the authentication process. Please try again.");
+        }
     }
 }
