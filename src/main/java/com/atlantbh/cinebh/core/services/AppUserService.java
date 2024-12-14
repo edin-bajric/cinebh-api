@@ -26,14 +26,14 @@ public class AppUserService {
             @Override
             public UserDetails loadUserByUsername(String email) {
                 return appUserRepository.findByEmail(email)
-                        .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
+                        .orElseThrow(() -> new UsernameNotFoundException(String.format("User with email '%s' not found", email)));
             }
         };
     }
 
     public AppUser findByEmail(String email) {
         return appUserRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with email '%s' not found", email)));
     }
 
     public void sendEmail(String email) {
