@@ -15,7 +15,7 @@ import java.util.*;
 @Service
 public class JwtService {
     @Value("${security.jwt.secret}")
-    String jwtSigningKey;
+    private String jwtSigningKey;
     private final Set<String> blacklistedTokens = new HashSet<>();
 
     public String extractUserName(String token) {
