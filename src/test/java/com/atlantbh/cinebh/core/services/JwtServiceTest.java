@@ -7,15 +7,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.lang.reflect.Field;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class JwtServiceTest {
 
@@ -25,10 +22,14 @@ class JwtServiceTest {
     private UserDetails mockUserDetails;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         String secretKey = "mySuperSecretKeyForJwtTesting12345678901234567890";
-        jwtService.jwtSigningKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+        String encodedKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+        Field signingKeyField = JwtService.class.getDeclaredField("jwtSigningKey");
+        signingKeyField.setAccessible(true);
+        signingKeyField.set(jwtService, encodedKey);
+
         mockUserDetails = new User("testUser", "password", Collections.emptyList());
     }
 
@@ -84,4 +85,3 @@ class JwtServiceTest {
         assertTrue(expiration.after(new Date()));
     }
 }
-
