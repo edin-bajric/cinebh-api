@@ -44,16 +44,16 @@ public class AppUserRequestDTO {
     }
 
     public AppUser toEntity() {
-        AppUser appUser = new AppUser();
-        appUser.setFirstName(firstName);
-        appUser.setLastName(lastName);
-        appUser.setPhone(phone);
-        appUser.setCity(city);
-        appUser.setCountry(country);
-        appUser.setImageUrl(imageUrl);
-        appUser.setEmail(email);
-        appUser.setPassword(password);
-        appUser.setType(MEMBER);
-        return appUser;
+        return AppUser.builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .phone(phone)
+                .city(city)
+                .country(country)
+                .imageUrl(imageUrl)
+                .email(email)
+                .password(password)
+                .type(type)
+                .build();
     }
 }
