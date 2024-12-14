@@ -17,6 +17,8 @@ public class JwtService {
     @Value("${security.jwt.secret}")
     private String jwtSigningKey;
     private final Set<String> blacklistedTokens = new HashSet<>();
+    @Value("${security.jwt.expiration}")
+    private long jwtExpirationInMs;
 
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -41,7 +43,7 @@ public class JwtService {
                 .subject(userDetails.getUsername())
                 .issuer(userDetails.getAuthorities().toString().toLowerCase().replaceAll("[\\[\\]]", "").trim())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))
+                .expiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
                 .signWith(getSigningKey()).compact();
     }
 
