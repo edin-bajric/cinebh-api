@@ -1,0 +1,1 @@
+alter table passwordResetCode alter column code type varchar (4);

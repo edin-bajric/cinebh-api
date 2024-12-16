@@ -12,11 +12,19 @@ spring:
     password: ${DB_PASSWORD}
   flyway:
     enabled: true
-    schemas: [cinebh]
-    defaultSchema: cinebh
   jpa:
     hibernate:
       ddlAuto: validate
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+security:
+  jwt:
+    secret: 'yEgfbaLxXMyjqd2zCUZh2KD8aRnGalNrmF6l6zxlq7N5XWja3kgjzWcd7oxRheAJ'
+    expiration: 604800000
+email:
+  mailgun:
+    domain: ${MG_DOMAIN}
+    from-email: ${MG_FROM_EMAIL}
+    username: api
+    password: ${MG_PASSWORD}
