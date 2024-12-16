@@ -1,5 +1,6 @@
 package com.atlantbh.cinebh.core.spec;
 
+import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import com.atlantbh.cinebh.core.models.Movie;
@@ -30,17 +31,36 @@ public class MovieSpecification {
 
     private static Specification<Movie> hasTitle(String title) {
         return (root, query, criteriaBuilder) -> {
-            if (title == null || title.trim().isEmpty()) {
+            if (isNullOrBlank(title)) {
                 return criteriaBuilder.conjunction();
             }
 
-            String normalizedTitle = title.replaceAll("\\s+", " ").trim().toLowerCase();
+            String normalizedQuery = normalizeAndRemoveAccents(title);
+
+            Expression<String> normalizedTitle = criteriaBuilder.function(
+                    "TRANSLATE", String.class,
+                    criteriaBuilder.lower(root.get("title")),
+                    criteriaBuilder.literal("àáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿāăąçćĉċčďđēĕėęěĝğġģĥħīĭįıĵķĺļľŀłńņňŋōŏőœŕŗřśŝşšţťŧūŭůűųŵŷźżž"),
+                    criteriaBuilder.literal("aaaaaaaeceeeeiiiidnoooooouuuuyyaaacccccddeeeeeegggghhiiiijkkllllnnnnooooorrrssssstttuuuuuwyyzzz")
+            );
 
             return criteriaBuilder.like(
-                    criteriaBuilder.lower(root.get("title")),
-                    "%" + normalizedTitle + "%"
+                    normalizedTitle,
+                    "%" + normalizedQuery + "%"
             );
         };
+    }
+
+    private static boolean isNullOrBlank(String text) {
+        return text == null || text.isBlank();
+    }
+
+    private static String normalizeAndRemoveAccents(String text) {
+        if (text == null) {
+            return null;
+        }
+        String normalized = java.text.Normalizer.normalize(text, java.text.Normalizer.Form.NFD);
+        return normalized.replaceAll("\\p{M}", "").replaceAll("\\s+", " ").trim().toLowerCase();
     }
 
     private static Specification<Movie> hasCity(String city) {
