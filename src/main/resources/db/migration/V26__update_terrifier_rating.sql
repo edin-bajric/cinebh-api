@@ -1,0 +1,1 @@
+update movie set rating = 'R' where rating = 'Not Rated';
