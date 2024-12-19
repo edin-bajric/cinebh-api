@@ -5,7 +5,7 @@ pipeline {
         BACKEND_IMAGE = 'ahmedhamdo/cinebh-backend:latest'
         SERVER_PORT = '8081'
 
-        # PostgreSQL environment variables
+        
         POSTGRES_IMAGE = 'postgres:latest'
         POSTGRES_CONTAINER = 'postgres-cinebh'
         POSTGRES_PORT = '5432'
@@ -13,7 +13,7 @@ pipeline {
         POSTGRES_PASSWORD = 'edin'
         POSTGRES_DB = 'postgres'
        
-        # Database connection URL for backend
+        
         DB_URL = "jdbc:postgresql://localhost:${POSTGRES_PORT}/${POSTGRES_DB}?currentSchema=cinebh"
     }
 
