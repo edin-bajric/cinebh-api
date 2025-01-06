@@ -20,8 +20,7 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 security:
   jwt:
-    secret: 'yEgfbaLxXMyjqd2zCUZh2KD8aRnGalNrmF6l6zxlq7N5XWja3kgjzWcd7oxRheAJ'
-    expiration: 604800000
+    secret: ${JWT_SECRET}
 email:
   mailgun:
     domain: ${MG_DOMAIN}

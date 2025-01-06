@@ -17,8 +17,6 @@ public class JwtService {
     @Value("${security.jwt.secret}")
     private String jwtSigningKey;
     private final Set<String> blacklistedTokens = new HashSet<>();
-    @Value("${security.jwt.expiration}")
-    private long jwtExpirationInMs;
 
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -38,6 +36,7 @@ public class JwtService {
     }
 
     private String generateTokenWithClaims(Map<String, Object> extraClaims, UserDetails userDetails) {
+        int jwtExpirationInMs = 604800000;
         return Jwts.builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
