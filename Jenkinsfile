@@ -18,6 +18,8 @@ pipeline {
         MG_DOMAIN = 'https://api.eu.mailgun.net/v3/mg.edinbajric.me'
         MG_FROM_EMAIL = 'Cinebh Ticketing System <mailgun@mg.edinbajric.me>'
         MG_PASSWORD = 'd8232d2e0cd6ecc5e1175e32efe5802d-c02fd0ba-f0398430'
+
+        JWT_SECRET = 'yEgfbaLxXMyjqd2zCUZh2KD8aRnGalNrmF6l6zxlq7N5XWja3kgjzWcd7oxRheAJ'
     }
 
     stages {
@@ -89,6 +91,7 @@ pipeline {
                     -e MG_DOMAIN=${MG_DOMAIN} \
                     -e MG_FROM_EMAIL="${MG_FROM_EMAIL}" \
                     -e MG_PASSWORD=${MG_PASSWORD} \
+                    -e JWT_SECRET=${JWT_SECRET} \
                     ${BACKEND_IMAGE}
                 """
             }
