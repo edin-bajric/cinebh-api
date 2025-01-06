@@ -73,6 +73,7 @@ DB_PASSWORD:
 MG_DOMAIN: 
 MG_FROM_EMAIL: 
 MG_PASSWORD: 
+JWT_SECRET:
 depends_on:
 - postgres
 ports:
