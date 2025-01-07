@@ -1,0 +1,1 @@
+alter table projection add constraint fk_hall foreign key (hallId) references hall(id) on delete cascade;
