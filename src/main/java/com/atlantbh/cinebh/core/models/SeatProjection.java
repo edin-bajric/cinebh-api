@@ -1,43 +1,32 @@
 package com.atlantbh.cinebh.core.models;
 
-import java.util.List;
-import java.util.UUID;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Projection {
+public class SeatProjection {
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(updatable = false, nullable = false)
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "venueId")
+    @JoinColumn(name = "seatId", nullable = true)
     @JsonBackReference
-    private Venue venue;
+    private Seat seat;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movieId")
+    @JoinColumn(name = "projectionId", nullable = true)
     @JsonBackReference
-    private Movie movie;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hallId")
-    @JsonBackReference
-    private Hall hall;
-
-    @OneToMany(mappedBy = "projection", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<ProjectionTime> projectionTimes;
+    private Projection projection;
 }
