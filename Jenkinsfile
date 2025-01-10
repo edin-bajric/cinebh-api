@@ -8,16 +8,19 @@ pipeline {
         POSTGRES_IMAGE = 'postgres:latest'
         POSTGRES_CONTAINER = 'postgres-cinebh'
         POSTGRES_PORT = '5432'
-        POSTGRES_USER = 'postgres'
-        POSTGRES_PASSWORD = 'edin'
-        POSTGRES_DB = 'cinebh'
+        POSTGRES_USER = credentials('TEAM2_POSTGRES_USER')
+        POSTGRES_PASSWORD = credentials('TEAM2_POSTGRES_PASSWORD')
+        POSTGRES_DB = credentials('TEAM2_POSTGRES_DB')
 
-        DB_URL = "jdbc:postgresql://postgres-cinebh:${POSTGRES_PORT}/${POSTGRES_DB}"
+        DB_URL = "jdbc:postgresql://${POSTGRES_CONTAINER}:${POSTGRES_PORT}/${POSTGRES_DB}"
+
         DOCKER_NETWORK = 'cinebh-network'
 
-        MG_DOMAIN = 'https://api.eu.mailgun.net/v3/mg.edinbajric.me'
-        MG_FROM_EMAIL = 'Cinebh Ticketing System <mailgun@mg.edinbajric.me>'
-        MG_PASSWORD = 'd8232d2e0cd6ecc5e1175e32efe5802d-c02fd0ba-f0398430'
+        MG_DOMAIN = credentials('TEAM2_MG_DOMAIN')
+        MG_FROM_EMAIL = credentials('TEAM2_MG_FROM_EMAIL')
+        MG_PASSWORD = credentials('TEAM2_MG_PASSWORD')
+
+        JWT_SECRET = credentials('TEAM2_JWT_SECRET')
     }
 
     stages {
@@ -87,8 +90,9 @@ pipeline {
                     -e DB_USERNAME=${POSTGRES_USER} \
                     -e DB_PASSWORD=${POSTGRES_PASSWORD} \
                     -e MG_DOMAIN=${MG_DOMAIN} \
-                    -e MG_FROM_EMAIL="${MG_FROM_EMAIL}" \
+                    -e MG_FROM_EMAIL=${MG_FROM_EMAIL} \
                     -e MG_PASSWORD=${MG_PASSWORD} \
+                    -e JWT_SECRET=${JWT_SECRET} \
                     ${BACKEND_IMAGE}
                 """
             }
