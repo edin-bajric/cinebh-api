@@ -90,8 +90,8 @@ pipeline {
                     -e DB_USERNAME=${POSTGRES_USER} \
                     -e DB_PASSWORD=${POSTGRES_PASSWORD} \
                     -e MG_DOMAIN=${MG_DOMAIN} \
-                    -e MG_FROM_EMAIL=${MG_FROM_EMAIL} \
-                    -e MG_PASSWORD="${MG_PASSWORD}" \
+                    -e MG_FROM_EMAIL="${MG_FROM_EMAIL}" \
+                    -e MG_PASSWORD=${MG_PASSWORD} \
                     -e JWT_SECRET=${JWT_SECRET} \
                     ${BACKEND_IMAGE}
                 """
