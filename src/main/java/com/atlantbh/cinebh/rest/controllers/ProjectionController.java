@@ -17,7 +17,7 @@ import java.util.UUID;
 public class ProjectionController {
     private final ProjectionService projectionService;
 
-    @GetMapping("/projection-details/{movieId}")
+    @GetMapping("/details/{movieId}")
     public ResponseEntity<ProjectionDetailsDTO> getProjectionDetails(@PathVariable("movieId") UUID movieId) {
         return ResponseEntity.ok(projectionService.getProjectionDetails(movieId));
     }
