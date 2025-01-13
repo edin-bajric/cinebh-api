@@ -32,6 +32,38 @@ public interface ProjectionRepository extends JpaRepository<Projection, UUID> {
     List<String> findCinemasByMovieId(@Param("movieId") UUID movieId);
 
     @Query("""
+        SELECT DISTINCT v.street
+        FROM Projection p
+        JOIN p.venue v
+        WHERE p.movie.id = :movieId
+    """)
+    List<String> findStreetsByMovieId(@Param("movieId") UUID movieId);
+
+    @Query("""
+        SELECT DISTINCT v.postcode
+        FROM Projection p
+        JOIN p.venue v
+        WHERE p.movie.id = :movieId
+    """)
+    List<String> findPostcodesByMovieId(@Param("movieId") UUID movieId);
+
+    @Query("""
+        SELECT DISTINCT v.streetNumber
+        FROM Projection p
+        JOIN p.venue v
+        WHERE p.movie.id = :movieId
+    """)
+    List<String> findStreetNumbersByMovieId(@Param("movieId") UUID movieId);
+
+    @Query("""
+        SELECT DISTINCT h.name
+        FROM Projection p
+        JOIN p.hall h
+        WHERE p.movie.id = :movieId
+    """)
+    List<String> findHallNamesByMovieId(@Param("movieId") UUID movieId);
+
+    @Query("""
         SELECT m.startDate
         FROM Movie m
         WHERE m.id = :movieId
@@ -57,6 +89,10 @@ public interface ProjectionRepository extends JpaRepository<Projection, UUID> {
         return new ProjectionDetailsDTO(
                 findCitiesByMovieId(movieId),
                 findCinemasByMovieId(movieId),
+                findStreetsByMovieId(movieId),
+                findPostcodesByMovieId(movieId),
+                findStreetNumbersByMovieId(movieId),
+                findHallNamesByMovieId(movieId),
                 findStartDateByMovieId(movieId),
                 findEndDateByMovieId(movieId),
                 findProjectionTimesByMovieId(movieId)
