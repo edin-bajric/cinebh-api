@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -20,6 +21,7 @@ public class ProjectionDetailsDTO {
     private List<String> postcodes;
     private List<String> streetNumbers;
     private List<String> hallNames;
+    private List<UUID> hallIds;
     private LocalDate startDate;
     private LocalDate endDate;
     private List<Time> projectionTimes;
