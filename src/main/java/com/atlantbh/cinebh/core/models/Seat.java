@@ -34,6 +34,11 @@ public class Seat {
     @JsonBackReference
     private SeatType type;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "statusId", nullable = true)
+    @JsonBackReference
+    private SeatStatus status;
+
     @OneToMany(mappedBy = "seat", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<SeatProjection> seatProjections;
