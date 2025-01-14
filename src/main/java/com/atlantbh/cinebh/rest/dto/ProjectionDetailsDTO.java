@@ -25,4 +25,6 @@ public class ProjectionDetailsDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private List<Time> projectionTimes;
+    private List<UUID> projectionIds;
 }
+

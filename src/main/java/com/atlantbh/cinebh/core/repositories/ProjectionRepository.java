@@ -93,6 +93,13 @@ public interface ProjectionRepository extends JpaRepository<Projection, UUID> {
     """)
     List<Time> findProjectionTimesByMovieId(@Param("movieId") UUID movieId);
 
+    @Query("""
+        SELECT DISTINCT p.id
+        FROM Projection p
+        WHERE p.movie.id = :movieId
+    """)
+    List<UUID> findProjectionIdsByMovieId(@Param("movieId") UUID movieId);
+
     default ProjectionDetailsDTO getProjectionDetails(UUID movieId) {
         return new ProjectionDetailsDTO(
                 findCitiesByMovieId(movieId),
@@ -104,7 +111,9 @@ public interface ProjectionRepository extends JpaRepository<Projection, UUID> {
                 findHallIdsByMovieId(movieId),
                 findStartDateByMovieId(movieId),
                 findEndDateByMovieId(movieId),
-                findProjectionTimesByMovieId(movieId)
+                findProjectionTimesByMovieId(movieId),
+                findProjectionIdsByMovieId(movieId)
         );
     }
 }
+
