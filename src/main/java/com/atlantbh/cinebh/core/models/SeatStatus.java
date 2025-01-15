@@ -1,7 +1,11 @@
 package com.atlantbh.cinebh.core.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Column;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +28,6 @@ public class SeatStatus {
     @Column(nullable = false, length = 45)
     private String status;
 
-    @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @OneToMany(mappedBy = "status", fetch = FetchType.EAGER)
     private List<Seat> seats;
 }
