@@ -44,7 +44,4 @@ public class Seat {
     @JoinColumn(name = "statusId", nullable = true)
     @JsonIgnoreProperties({"seats"})
     private SeatStatus status;
-
-    @OneToMany(mappedBy = "seat")
-    private List<SeatProjection> seatProjections;
 }
