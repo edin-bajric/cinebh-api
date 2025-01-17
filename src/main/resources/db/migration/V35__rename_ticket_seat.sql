@@ -1,0 +1,1 @@
+alter table ticket_seat rename to ticketSeat;
