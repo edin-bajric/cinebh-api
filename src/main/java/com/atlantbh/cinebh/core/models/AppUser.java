@@ -1,6 +1,7 @@
 package com.atlantbh.cinebh.core.models;
 
 import com.atlantbh.cinebh.core.models.enums.UserType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -55,6 +56,9 @@ public class AppUser implements UserDetails {
 
     @OneToMany(mappedBy = "appUser", fetch = FetchType.LAZY)
     private List<PasswordResetCode> passwordResetCodes;
+
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Ticket> tickets;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
