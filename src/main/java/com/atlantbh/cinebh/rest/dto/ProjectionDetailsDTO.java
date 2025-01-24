@@ -26,5 +26,18 @@ public class ProjectionDetailsDTO {
     private LocalDate endDate;
     private List<Time> projectionTimes;
     private List<UUID> projectionIds;
-}
 
+    public ProjectionDetailsDTO(List<String> cities) {
+        this.cities = cities;
+        this.cinemas = null;
+        this.streets = null;
+        this.postcodes = null;
+        this.streetNumbers = null;
+        this.hallNames = null;
+        this.hallIds = null;
+        this.startDate = null;
+        this.endDate = null;
+        this.projectionTimes = null;
+        this.projectionIds = null;
+    }
+}
