@@ -38,8 +38,7 @@ class ProjectionRepositoryTest {
     void shouldReturnCitiesByMovieId() {
         UUID movieId = UUID.randomUUID();
         ProjectionDetailsDTO projectionDetailsDTO = new ProjectionDetailsDTO(
-                Arrays.asList("City1", "City2"),
-                null, null, null, null, null, null, null, null, null, null
+                Arrays.asList("City1", "City2")
         );
 
         when(projectionRepository.getProjectionDetails(movieId)).thenReturn(projectionDetailsDTO);
