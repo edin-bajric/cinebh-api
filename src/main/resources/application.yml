@@ -27,3 +27,6 @@ email:
     from-email: ${MG_FROM_EMAIL}
     username: api
     password: ${MG_PASSWORD}
+stripe:
+  api:
+    key: ${STRIPE_API_KEY}

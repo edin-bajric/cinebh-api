@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,5 +47,5 @@ public class Ticket {
             joinColumns = @JoinColumn(name = "ticketId"),
             inverseJoinColumns = @JoinColumn(name = "seatId")
     )
-    private List<Seat> seats;
+    private List<Seat> seats = new ArrayList<>();
 }
