@@ -37,7 +37,7 @@ public class StripeService {
                     .setPaymentMethod(paymentMethodId)
                     .setConfirmationMethod(PaymentIntentCreateParams.ConfirmationMethod.AUTOMATIC)
                     .setConfirm(true)
-                    .setReturnUrl("http://localhost:5174/buy-ticket-payment")
+                    .setReturnUrl("http://localhost:5173/buy-ticket-payment")
                     .build();
 
             PaymentIntent paymentIntent = PaymentIntent.create(createParams);
